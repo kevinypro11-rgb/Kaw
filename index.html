@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- Metadatos básicos -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Kaw - Simplemente, Viste. Descubre nuestra colección de productos.">
+  <meta name="author" content="Kaw">
+
+  <!-- Título de la página -->
+  <title>Kaw | Simplemente, Viste</title>
+
+  <!-- Preconexión para Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="servicios.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Scripts -->
+  <script src="app.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <a href="index.html">
+          <img src="images/Kawlogo.jpg" alt="Logo Kaw" onerror="this.src='images/placeholder.jpg'">
+        </a>
+        <p class="slogan">Simplemente, Viste</p>
+      </div>
+      <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="index.html#servicios">Servicios</a></li>
+            <li><a href="about.html">Acerca de Nosotros</a></li>
+        </ul>
+      </nav>
+      <!-- El ícono del carrito se genera dinámicamente con app.js -->
+    </div>
+  </header>
+
+  <section id="inicio" class="hero">
+    <h2>Elegancia en cada detalle</h2>
+    <p>Descubre la nueva colección de Kaw</p>
+    <a href="#productos" class="btn">Ver Productos</a>
+  </section>
+
+  <main class="catalogo-container">
+    <!-- Barra lateral de filtros eliminada -->
+
+    <!-- Contenido de productos -->
+    <div class="productos-container">
+      <section class="busqueda-contenedor" aria-label="Buscar productos">
+        <input id="buscador" type="search" placeholder="Buscar producto..." aria-label="Buscar producto">
+        <div class="controles-catalogo">
+          <select id="orden" aria-label="Ordenar productos">
+            <option value="default">Ordenar por</option>
+            <option value="precio-asc">Precio ↑</option>
+            <option value="precio-desc">Precio ↓</option>
+            <option value="nombre-asc">A → Z</option>
+          </select>
+        </div>
+      </section>
+      
+      <section id="productos" class="productos">
+        <h2>Nuestros Productos</h2>
+        <div class="grid-productos" id="lista-productos" aria-live="polite">
+          <!-- Render de productos -->
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <section class="servicios-section" id="servicios">
+    <div class="container">
+        <h2>Nuestros Servicios</h2>
+        <p class="section-intro">En KAW te ayudamos a crecer: personaliza tus prendas, inicia tu negocio o crea tu marca.<br>Descubre el plan que mejor se adapta a ti y comienza a emprender con confianza.</p>
+        <div class="servicios-grid-detailed">
+            <!-- Servicio 1: Personalización -->
+            <div class="servicio-card-detailed">
+                <div class="card-icon">🧵</div>
+                <h3>Personalización</h3>
+                <p>Personaliza tus prendas con etiquetas, marquillas y empaques que reflejen tu identidad. Ofrecemos asesoría en diseño, tipos de etiqueta y empaques personalizados.</p>
+                <a href="personalizacion.html" class="btn">Personaliza ahora</a>
+            </div>
+            <!-- Servicio 2: Emprende con KAW -->
+            <div class="servicio-card-detailed emprende-card">
+                <div class="card-icon">🚀</div>
+                <h3>Emprende con KAW</h3>
+                <div class="planes-emprende">
+                    <div class="plan-item"><strong>💡 Emprende+:</strong> Sin monto mínimo. Revende a precios web.</div>
+                    <div class="plan-item"><strong>💼 Emprendedor:</strong> Desde $400.000. Catálogo y precios preferenciales.</div>
+                    <div class="plan-item"><strong>🏆 Mayorista:</strong> Desde $1.000.000. Descuentos, obsequios y atención prioritaria.</div>
+                </div>
+                <a href="emprende.html" class="btn">Únete y empieza a vender</a>
+            </div>
+            <!-- Servicio 3: Crea tu Marca -->
+            <div class="servicio-card-detailed">
+                <div class="card-icon">🏷️</div>
+                <h3>Crea tu Marca</h3>
+                <p>Te ayudamos a construir tu marca desde cero: diseño de logo, etiquetas, catálogo digital, empaque y reportes. Hacemos que tu idea se convierta en una marca real.</p>
+                <a href="crea-tu-marca.html" class="btn">Crea tu marca hoy</a>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <section class="beneficios-section">
+      <div class="container">
+          <h2>Por qué elegirnos</h2>
+          <div class="beneficios-grid">
+              <div class="beneficio-item">
+                  <div class="beneficio-icon">⚡</div>
+                  <p>Envíos a todo el país</p>
+              </div>
+              <div class="beneficio-item">
+                  <div class="beneficio-icon">🤝</div>
+                  <p>Asesoría personalizada</p>
+              </div>
+              <div class="beneficio-item">
+                  <div class="beneficio-icon">🎓</div>
+                  <p>Capacitaciones y comunidad</p>
+              </div>
+              <div class="beneficio-item">
+                  <div class="beneficio-icon">🎁</div>
+                  <p>Bonos y recompensas</p>
+              </div>
+              <div class="beneficio-item">
+                  <div class="beneficio-icon">🧩</div>
+                  <p>Catálogos digitales</p>
+              </div>
+              <div class="beneficio-item">
+                  <div class="beneficio-icon">🕒</div>
+                  <p>Entrega rápida y garantizada</p>
+              </div>
+          </div>
+          <a href="about.html" class="btn">Descubre más beneficios</a>
+      </div>
+  </section>
+
+  <section class="testimonios-section">
+      <div class="container">
+          <h2>Lo que dicen nuestros emprendedores</h2>
+          <div class="testimonios-grid">
+              <div class="testimonio-card">
+                  <p>"Gracias a KAW, pude iniciar mi negocio desde casa y hoy tengo ingresos estables."</p>
+                  <span>- María G., Emprendedora KAW</span>
+              </div>
+              <div class="testimonio-card">
+                  <p>"La calidad de los productos es excelente y el acompañamiento que brindan es increíble."</p>
+                  <span>- Juan P., Mayorista</span>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <section class="cta-section">
+      <div class="container">
+          <h2>¿Listo para comenzar?</h2>
+          <p>Personaliza, emprende o crea tu marca. En KAW te acompañamos en cada paso.</p>
+          <a href="https://wa.me/573118890188?text=Hola, ¡estoy listo para comenzar!" target="_blank" class="btn btn-cta">Comienza ahora</a>
+      </div>
+  </section>
+
+  <section id="contacto" class="contacto">
+    <h2>Contáctanos</h2>
+    <p>Escríbenos o síguenos en nuestras redes.</p>
+    <div class="redes">
+      <a href="https://wa.me/573118890188" target="_blank" class="icono whatsapp" rel="noopener">
+        <i class="fab fa-whatsapp" aria-hidden="true"></i>
+        <span class="sr-only">WhatsApp</span>
+      </a>
+      <a href="https://www.instagram.com/" target="_blank" class="icono instagram" rel="noopener">
+        <i class="fab fa-instagram" aria-hidden="true"></i>
+        <span class="sr-only">Instagram</span>
+      </a>
+      <a href="https://www.facebook.com/" target="_blank" class="icono facebook" rel="noopener">
+        <i class="fab fa-facebook" aria-hidden="true"></i>
+        <span class="sr-only">Facebook</span>
+      </a>
+      <a href="mailto:kawcolombia@gmail.com" class="icono correo">
+        <i class="fas fa-envelope" aria-hidden="true"></i>
+        <span class="sr-only">Correo</span>
+      </a>
+    </div>
+  </section>
+  <footer>
+    <p>© 2025 Kaw. Todos los derechos reservados.</p>
+  </footer>
+</body>
+</html>

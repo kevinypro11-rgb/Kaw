@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- Metadatos básicos -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Detalle del producto en Kaw. Descubre más sobre nuestros productos.">
+  <meta name="author" content="Kaw">
+
+  <!-- Título de la página -->
+  <title>Detalle del producto | Kaw</title>
+
+  <!-- Preconexión para Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Scripts -->
+  <!-- Firebase (opcional, para login social) -->
+  <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js" defer></script>
+  <script src="firebase-config.js" defer></script>
+  <script src="helpers.js" defer></script>
+  <script src="auth.js" defer></script>
+  <script src="app.js" defer></script>
+  <script src="producto.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <a href="index.html" class="logo">
+        <img src="images/Kawlogo.jpg" alt="Logo Kaw" onerror="this.src='images/placeholder.jpg'">
+        <p class="slogan">Simplemente, Viste</p>
+      </a>
+      <!-- El carrito se genera dinámicamente con app.js -->
+    </div>
+  </header>
+  
+  <main class="detalle-producto">
+    <section id="detalle-producto-container" class="detalle-producto" aria-label="Detalle del producto">
+      <a href="index.html" id="btn-volver" class="btn-volver">
+        <i class="fas fa-arrow-left"></i> Volver al catálogo
+      </a>
+      <div class="detalle-contenido">
+        <div class="galeria">
+          <div class="imagen-zoom-container">
+            <img id="imagen-principal" class="imagen-zoom" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Imagen principal" loading="lazy">
+          </div>
+          <div id="miniaturas" class="miniaturas" aria-hidden="false">
+            <!-- miniaturas se generan dinámicamente -->
+          </div>
+        </div>
+
+        <div class="detalle-info">
+          <h2 id="detalle-nombre">Nombre del producto</h2>
+          <p id="detalle-precio" class="precio">$0</p>
+          <p id="detalle-descripcion">Descripción del producto</p>
+
+          <div class="variantes">
+            <!-- Variantes (tallas, colores) se generarán dinámicamente -->
+          </div>
+
+          <div class="cantidad-control detalle-cantidad" aria-label="Cantidad">
+            <button id="menos" class="qty btn" aria-label="Disminuir">-</button>
+            <span id="cantidad">1</span>
+            <button id="mas" class="qty btn" aria-label="Aumentar">+</button>
+          </div>
+
+          <div class="acciones-detalle">
+            <button id="agregar-carrito" class="btn-agregar btn">Agregar al carrito</button>
+            <button id="abrir-carrito" class="btn">Ir al carrito</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="recomendaciones-container" class="recomendaciones">
+      <!-- Las recomendaciones se generan dinámicamente -->
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Kaw. Todos los derechos reservados.</p>
+  </footer>
+</body>
+</html>
+

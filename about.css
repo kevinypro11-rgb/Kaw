@@ -1,0 +1,41 @@
+/* Estilos para la página "Acerca de Nosotros" */
+
+.about-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.about-container h1 {
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.about-container p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.mission-vision {
+    display: flex;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.mission-vision .card {
+    flex: 1;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    border-left: 4px solid #c9a227;
+    text-align: left;
+}
+
+.mission-vision h2 {
+    color: #c9a227;
+    margin-bottom: 1rem;
+}

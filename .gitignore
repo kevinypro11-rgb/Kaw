@@ -1,0 +1,13 @@
+# Dependencias del servidor
+/node_modules
+
+# Archivos de configuración con secretos
+# Es una buena práctica no subir las credenciales a Git.
+firebase-config.js
+
+# Archivos de historial de R
+.Rhistory
+
+# Archivos generados por el sistema operativo
+.DS_Store
+Thumbs.db
