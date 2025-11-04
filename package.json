@@ -1,7 +1,7 @@
 {
   "name": "kaw-tienda",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "description": "Tienda Kaw - servidor estático con API de inventario (Excel/CSV)",
   "main": "server.js",
   "scripts": {
