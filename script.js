@@ -7,11 +7,12 @@
     let productosCache = [];
     let productosFiltrados = [];
     const FILTERS_KEY = 'kawFilters';
+    const PATH_PRODUCTOS = 'productos.json';
 
     async function fetchProductos() {
       try {
         // Cambia la ruta a './productos.json' para asegurar acceso público
-        const resLocal = await fetch('./productos.json', { cache: 'no-store' });
+        const resLocal = await fetch(PATH_PRODUCTOS, { cache: 'no-store' });
         if (!resLocal.ok) throw new Error('productos.json no accesible');
         const dataLocal = await resLocal.json();
         productosCache = Array.isArray(dataLocal) ? dataLocal : [];
