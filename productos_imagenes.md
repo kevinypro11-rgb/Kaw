@@ -62,15 +62,26 @@ Esta es una lista de los productos y los nombres de archivo esperados para sus i
   - `KawCalcetinclasicohombre1.jpg`
   - `KawCalcetinclasicohombre2.jpg`
 
-- **Producto:** Calcetin clasico Mujer
-  - **Referencia:** KAWC011
-  - `KawCalcetinclasicoMujer.jpg`
-  - `KawCalcetinclasicoMujer1.jpg`
-  - `KawCalcetinclasicoMujer2.jpg`
-
 - **Producto:** Calcetin calentador
   - **Referencia:** KAWC012
   - `KawMediacalentadora.jpg`
   - `KawMediacalentadora1.jpg`
   - `KawMediacalentadora2.jpg`
+
+## Instalación y uso de Node.js / npm (backend Kaw)
+1. Descargar Node LTS: https://nodejs.org
+2. Instalar (aceptar agregar al PATH).
+3. Verificar en terminal:
+   - `node -v`
+   - `npm -v`
+4. Ir al proyecto:
+   - `cd "c:\Users\57312\Downloads\Universidad\Kaw-Tienda"`
+5. Instalar dependencias:
+   - `npm install`
+6. Iniciar servidor:
+   - `npm start`
+   - (o `npm run dev` con nodemon)
+7. Probar API:
+   - Navegar a `http://localhost:3000/api/health`
+8. Si falla conexión: revisar que la terminal muestre “Kaw-Tienda escuchando...” y que no haya bloqueo de firewall.
 

@@ -9,7 +9,7 @@
     "descripcion": "Tobillera sencilla y elegante, perfecta para cualquier ocasión.",
     "imagen": "images/KawTobilleraSencilla.jpg",
     "imagenes": ["images/KawTobilleraSencilla.jpg", "images/KawTobilleraSencilla1.jpg", "images/KawTobilleraSencilla2.jpg"],
-    "tallas": ["Única"],
+    "tallas": ["35-38", "39-42"],
     "colores": ["Blanco", "Negro", "Gris"]
   },
   {
@@ -22,8 +22,9 @@
     "descripcion": "Calcetines divertidos y cómodos con un diseño único de orejitas.",
     "imagen": "images/KawCalcetinconorejitas.jpg",
     "imagenes": ["images/KawCalcetinconorejitas.jpg", "images/KawCalcetinconorejitas1.jpg"],
-    "tallas": ["Única"],
-    "colores": ["Varios"]
+    "tallas": ["35-38"],
+    "colores": ["Rosa", "Azul", "Beige"],
+    "descuento_pct": 20
   },
   {
     "id": 3,
@@ -35,7 +36,7 @@
     "descripcion": "Comodidad y rendimiento para el deporte, diseñados para hombre.",
     "imagen": "images/KawDeportivashombre.jpg",
     "imagenes": ["images/KawDeportivashombre.jpg", "images/KawDeportivashombre1.jpg", "images/KawDeportivashombre2.jpg"],
-    "tallas": ["Única"],
+    "tallas": ["39-42"],
     "colores": ["Negro", "Blanco"]
   },
   {
@@ -43,12 +44,12 @@
     "nombre": "Deportivas Mujer",
     "referencia": "KAWC004",
     "precio": 8000,
-    "stock": 25,
+    "stock": 0,
     "categoria": "mujer",
     "descripcion": "Comodidad y rendimiento para el deporte, diseñados para mujer.",
     "imagen": "images/KawDeportivasmujer.jpg",
     "imagenes": ["images/KawDeportivasmujer.jpg", "images/KawDeportivasmujer1.jpg"],
-    "tallas": ["Única"],
+    "tallas": ["35-38"],
     "colores": ["Rosado", "Blanco"]
   },
   {
@@ -61,8 +62,8 @@
     "descripcion": "Elegante tobillera con finos detalles bordados.",
     "imagen": "images/KawTobillerabordada.jpg",
     "imagenes": ["images/KawTobillerabordada.jpg", "images/KawTobillerabordada1.jpg"],
-    "tallas": ["Única"],
-    "colores": ["Varios"]
+    "tallas": ["35-38"],
+    "colores": ["Beige", "Blanco", "Negro"]
   },
   {
     "id": 6,
@@ -74,8 +75,8 @@
     "descripcion": "Canilleras con figuras divertidas para un estilo único.",
     "imagen": "images/KawCanilleraconfigura.jpg",
     "imagenes": ["images/KawCanilleraconfigura.jpg", "images/KawCanilleraconfigura1.jpg"],
-    "tallas": ["Única"],
-    "colores": ["Varios"]
+    "tallas": ["35-38"],
+    "colores": ["Blanco", "Negro"]
   },
   {
     "id": 7,
@@ -101,7 +102,7 @@
     "imagen": "images/KawTobillerasniña.jpg",
     "imagenes": ["images/KawTobillerasniña.jpg"],
     "tallas": ["Infantil"],
-    "colores": ["Varios"]
+    "colores": ["Rosa", "Lila", "Blanco"]
   },
   {
     "id": 9,
@@ -114,7 +115,7 @@
     "imagen": "images/KawTobillerasniño.jpg",
     "imagenes": ["images/KawTobillerasniño.jpg"],
     "tallas": ["Infantil"],
-    "colores": ["Varios"]
+    "colores": ["Azul", "Verde", "Gris"]
   },
   {
     "id": 10,
@@ -126,21 +127,8 @@
     "descripcion": "Calcetín clásico para hombre, ideal para el día a día.",
     "imagen": "images/KawCalcetinclasicohombre.jpg",
     "imagenes": ["images/KawCalcetinclasicohombre.jpg"],
-    "tallas": ["Única"],
+    "tallas": ["39-42"],
     "colores": ["Negro", "Gris", "Azul"]
-  },
-  {
-    "id": 11,
-    "nombre": "Calcetin clasico (Mujer)",
-    "referencia": "KAW-011",
-    "precio": 7500,
-    "stock": 40,
-    "categoria": "mujer",
-    "descripcion": "Calcetín clásico para mujer, ideal para el día a día.",
-    "imagen": "images/KawCalcetinclasicoMujer.jpg",
-    "imagenes": ["images/KawCalcetinclasicoMujer.jpg", "images/KawCalcetinclasicoMujer1.jpg", "images/KawCalcetinclasicoMujer2.jpg"],
-    "tallas": ["Única"],
-    "colores": ["Blanco", "Pastel"]
   },
   {
     "id": 12,
@@ -152,7 +140,7 @@
     "descripcion": "Calcetines calentadores, perfectos para climas fríos.",
     "imagen": "images/KawMediacalentadora.jpg",
     "imagenes": ["images/KawMediacalentadora.jpg", "images/KawMediacalentadora1.jpg", "images/KawMediacalentadora2.jpg"],
-    "tallas": ["Única"],
-    "colores": ["Varios"]
+    "tallas": ["35-38", "39-42"],
+    "colores": ["Gris", "Negro", "Beige"]
   }
 ]

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Checkout - Kaw</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.checkout-wrap{
+  max-width:760px;
+  margin:40px auto;
+  padding:24px;
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  font-family:Poppins,sans-serif;
+  border-top: 4px solid #c9a227;
+}
+.checkout-wrap h1{
+  margin:0 0 18px;
+  font-size:1.6rem;
+}
+.checkout-grid{
+  display:grid;
+  gap:14px;
+  grid-template-columns:1fr 1fr;
+}
+.checkout-grid .full{
+  grid-column:1/-1;
+}
+.checkout-wrap label{
+  font-weight:600;
+  font-size:.85rem;
+  display:block;
+  margin-bottom:4px;
+}
+.checkout-wrap input, .checkout-wrap textarea{
+  width:100%;
+  padding:10px 12px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  font:inherit;
+}
+.checkout-wrap input:focus,
+.checkout-wrap textarea:focus{
+  outline: none;
+  border-color: #c9a227;
+  box-shadow: 0 0 0 2px rgba(201,162,39,.18);
+}
+.checkout-items{
+  margin:18px 0 10px;
+  padding:12px;
+  background:#fafafa;
+  border:1px solid #eee;
+  border-radius:10px;
+  max-height:240px;
+  overflow:auto;
+  font-size:.85rem;
+}
+
+/* Nueva grilla por ítem: miniatura + info + subtotal */
+.checkout-item{
+  display:grid;
+  grid-template-columns:56px 1fr auto;
+  align-items:center;
+  gap:12px;
+  padding:8px 10px;
+  border-bottom:1px dashed #e5e5e5;
+}
+.checkout-item:nth-child(odd){ background:#fff; }
+.checkout-item:nth-child(even){ background:#fdfdfd; }
+
+.checkout-thumb{
+  width:56px; height:56px;
+  border-radius:8px;
+  object-fit:cover;
+  border:1px solid #eee;
+  background:#fafafa;
+  display:block;
+}
+
+.ci-info{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  min-width:0;
+}
+.ci-nombre{
+  margin:0;
+  font-weight:600;
+  color:#222;
+  line-height:1.25;
+  display:-webkit-box;
+  line-clamp:2;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.ci-variantes{
+  font-size:.85rem;
+  color:#666;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.ci-subtotal{
+  font-weight:700;
+  color:#111;
+  white-space:nowrap;
+  text-align:right;
+}
+
+@media (max-width:520px){
+  .checkout-item{ grid-template-columns:52px 1fr auto; gap:10px; }
+  .checkout-thumb{ width:52px; height:52px; }
+}
+
+.checkout-items div{
+  display:flex;
+  justify-content:space-between;
+  padding:4px 0;
+  border-bottom:1px dashed #e5e5e5;
+}
+.checkout-items div:nth-child(odd){
+  background: #fff;
+}
+.checkout-items div:nth-child(even){
+  background: #fdfdfd;
+}
+.checkout-items div:last-child{
+  border-bottom:none;
+}
+.checkout-total{
+  font-weight:700;
+  text-align:right;
+  margin-top:10px;
+}
+.btn-confirm{
+  background:#111;
+  color:#fff;
+  border:none;
+  padding:12px 20px;
+  border-radius:10px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.18s;
+  box-shadow: 0 6px 14px rgba(0,0,0,.08);
+}
+.btn-confirm:hover{
+  background:#c9a227;
+  transform: translateY(-1px);
+}
+.msg{
+  margin-top:14px;
+  font-size:.9rem;
+}
+</style>
+</head>
+<body>
+<div class="checkout-wrap">
+  <h1>Finalizar Compra</h1>
+  <div id="resumen">
+    <div class="checkout-items" id="checkout-items"></div>
+    <div class="checkout-total" id="checkout-total"></div>
+  </div>
+  <form id="checkout-form" novalidate>
+    <div class="checkout-grid">
+      <div class="full">
+        <label>Nombre completo *</label>
+        <input type="text" name="nombre" required>
+      </div>
+      <div>
+        <label>Correo *</label>
+        <input type="email" name="email" required>
+      </div>
+      <div>
+        <label>Teléfono / WhatsApp *</label>
+        <input type="tel" name="telefono" required>
+      </div>
+      <div class="full">
+        <label>Dirección *</label>
+        <input type="text" name="direccion" required>
+      </div>
+      <div>
+        <label>Ciudad *</label>
+        <input type="text" name="ciudad" required>
+      </div>
+      <div class="full">
+        <label>Notas (opcional)</label>
+        <textarea name="notas" rows="3"></textarea>
+      </div>
+    </div>
+    <button type="submit" class="btn-confirm" id="btn-confirm">Enviar Pedido</button>
+    <div class="msg" id="msg"></div>
+  </form>
+  <p style="margin-top:24px;"><a href="index.html" class="btn-secundario">Volver al catálogo</a></p>
+</div>
+<script src="helpers.js"></script>
+<script>
+(async()=>{
+  const datos = (()=>{ try{return JSON.parse(sessionStorage.getItem('checkout_data')||'{}');}catch{return {};}})();
+  const items = Array.isArray(datos.items)?datos.items:[];
+  if(!items.length){ document.querySelector('.checkout-wrap').innerHTML='<p>Carrito vacío.</p>'; return; }
+  const format = window.Kaw.formatPrice;
+  const imgFallback = window.Kaw.TINY_GIF;
+  const divItems = document.getElementById('checkout-items');
+  let total = 0;
+
+  // Render con imagen + info + subtotal
+  divItems.innerHTML = items.map(i=>{
+    const st = window.Kaw.calcSubtotal(i);
+    total += st;
+    return `
+      <div class="checkout-item">
+        <img class="checkout-thumb" src="${i.imagen || imgFallback}" alt="${i.nombre||'Producto'}">
+        <div class="ci-info">
+          <p class="ci-nombre">${i.nombre||''}</p>
+          <div class="ci-variantes">
+            ${i.talla?`<span>Talla: ${i.talla}</span>`:''}
+            ${i.color?`<span>Color: ${i.color}</span>`:''}
+            <span>Cant: ${i.cantidad}</span>
+          </div>
+        </div>
+        <div class="ci-subtotal">${format(st)}</div>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('checkout-total').textContent = 'Total: ' + format(total);
+
+  function crearPedidoLocal({nombre,email,telefono,direccion,ciudad,notas}) {
+    const payloadItems = items.map(i=>({
+      id:i.id,
+      nombre:i.nombre,
+      referencia: i.referencia || i.id,
+      cantidad:i.cantidad,
+      talla:i.talla||null,
+      color:i.color||null,
+      subtotal: window.Kaw.calcSubtotal(i),
+      promo: window.Kaw.describePrecio({...i, cantidad:i.cantidad})||null
+    }));
+    const totalCalc = payloadItems.reduce((s,i)=>s+i.subtotal,0);
+    const id = 'P-' + Date.now();
+    const refsTxt = payloadItems.map(it=>`${it.referencia} x${it.cantidad}`).join('\n');
+    const whatsapp_text =
+      `Pedido ${id}\nCliente: ${nombre}\nEmail: ${email}\nTel: ${telefono}` +
+      (direccion?`\nDir: ${direccion}`:'') +
+      (ciudad?`\nCiudad: ${ciudad}`:'') +
+      `\nRefs:\n${refsTxt}\nTotal: ${format(totalCalc)}` +
+      (notas?`\nNotas: ${notas}`:'');
+    const pedidos = JSON.parse(localStorage.getItem('pedidos')||'[]');
+    pedidos.push({ id, fecha:new Date().toISOString(), cliente:{nombre,email,telefono,direccion,ciudad,notas}, items:payloadItems, total:totalCalc, estado:'pendiente', whatsapp_text });
+    localStorage.setItem('pedidos', JSON.stringify(pedidos));
+    return whatsapp_text;
+  }
+
+  function abrirWhatsApp(url){
+    let w; try{ w=window.open(url,'_blank'); }catch{}
+    if(!w) location.href=url;
+  }
+
+  document.getElementById('checkout-form').addEventListener('submit', e=>{
+    e.preventDefault();
+    const f = e.target;
+    const msgEl = document.getElementById('msg');
+    msgEl.textContent='';
+    const btn = document.getElementById('btn-confirm');
+    btn.disabled = true; btn.textContent='Enviando...';
+    const nombre = f.nombre.value.trim();
+    const email = f.email.value.trim();
+    const telefono = f.telefono.value.trim();
+    const direccion = f.direccion.value.trim();
+    const ciudad = f.ciudad.value.trim();
+    const notas = f.notas.value.trim();
+    if(!nombre || !email || !telefono || !direccion || !ciudad){
+      msgEl.textContent='Completa todos los campos requeridos.';
+      btn.disabled=false; btn.textContent='Enviar Pedido'; return;
+    }
+    try{
+      const texto = crearPedidoLocal({nombre,email,telefono,direccion,ciudad,notas});
+      const admin='573118890188';
+      const url = `https://wa.me/${admin}?text=${encodeURIComponent(texto)}`;
+      abrirWhatsApp(url);
+      try{ localStorage.setItem('carrito','[]'); }catch{}
+      sessionStorage.removeItem('checkout_data');
+      msgEl.textContent='Pedido enviado. Abriendo WhatsApp...';
+      btn.style.display='none';
+    }catch(err){
+      console.error(err);
+      msgEl.textContent='Error inesperado.';
+      btn.disabled=false; btn.textContent='Enviar Pedido';
+    }
+  });
+})();
+</script>
+</body>
+</html>

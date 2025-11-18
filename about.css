@@ -8,34 +8,86 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     text-align: center;
+    line-height: 1.75;           /* mejor ritmo tipográfico */
 }
 
 .about-container h1 {
-    color: #333;
-    margin-bottom: 1.5rem;
+    color: #c9a227;
+    font-size: 2.2rem;
+    letter-spacing: .5px;
+    margin: .5rem auto 1.5rem;
+    position: relative;
+}
+
+.about-container h1::after{
+    content: "";
+    display: block;
+    width: 90px;
+    height: 4px;
+    background: #c9a227;
+    border-radius: 999px;
+    margin: 12px auto 0;
 }
 
 .about-container p {
-    color: #666;
-    line-height: 1.6;
+    color: #444;                  /* mejor contraste */
+    max-width: 70ch;              /* ancho de línea cómodo */
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 1.5rem;
+    font-size: 1.05rem;           /* lead */
+    color: #3a3a3a;
 }
 
 .mission-vision {
-    display: flex;
-    gap: 2rem;
+    /* display: flex; -> grid responsive */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
     margin: 2rem 0;
+    align-items: stretch;
 }
 
 .mission-vision .card {
     flex: 1;
-    padding: 1.5rem;
-    background-color: #f9f9f9;
+    padding: 1.5rem 1.25rem;
+    background-color: #fff;
     border-left: 4px solid #c9a227;
-    text-align: left;
+    border-radius: 12px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+.mission-vision .card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.09);
 }
 
 .mission-vision h2 {
     color: #c9a227;
-    margin-bottom: 1rem;
+    margin-top: 0;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+.mission-vision h2::before{
+    content: "";
+    width: 10px;
+    height: 10px;
+    background:#c9a227;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+@media (max-width: 768px){
+    .about-container{
+        margin: 1rem auto;
+        padding: 1.25rem;
+    }
+    .about-container h1{ font-size: 1.8rem; }
+    .mission-vision{
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .mission-vision .card{ padding: 1.25rem; }
 }
