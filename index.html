@@ -51,11 +51,47 @@
   </section>
 
   <main class="catalogo-container">
-    <!-- Barra lateral de filtros eliminada -->
+    <!-- Barra lateral de filtros -->
+    <aside id="sidebar-filtros" class="sidebar-filtros">
+      <div class="sidebar-header">
+        <h3>Filtros</h3>
+        <button id="cerrar-filtros-btn" class="cerrar-filtros-btn" aria-label="Cerrar filtros">&times;</button>
+      </div>
+      <button id="limpiar-filtros" class="btn-limpiar-filtros" title="Limpiar filtros">Limpiar Filtros</button>
+      
+      <div class="filtro-grupo activo">
+        <h4>Categoría</h4>
+        <div class="filtro-contenido" id="filtros-categoria">
+          <div class="filtros" role="tablist" aria-label="Filtrar por categoría">
+            <button class="filtro-btn activo" data-categoria="todos" role="tab">Todos</button>
+            <button class="filtro-btn" data-categoria="hombre" role="tab">Hombre</button>
+            <button class="filtro-btn" data-categoria="mujer" role="tab">Mujer</button>
+            <button class="filtro-btn" data-categoria="accesorios" role="tab">Accesorios</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="filtro-grupo">
+        <h4>Precio</h4>
+        <div class="filtro-contenido">
+          <div class="precio-filtro-contenedor">
+            <input type="range" id="filtro-precio" min="0" max="200000" step="10000">
+            <span id="precio-max-display"></span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- FILTROS DINAMICOS SE INSERTARÁN AQUÍ -->
+
+    </aside>
 
     <!-- Contenido de productos -->
     <div class="productos-container">
       <section class="busqueda-contenedor" aria-label="Buscar productos">
+        <button id="mostrar-filtros-btn" class="btn-mostrar-filtros">
+          <i class="fas fa-filter"></i>
+          <span>Filtros</span>
+        </button>
         <input id="buscador" type="search" placeholder="Buscar producto..." aria-label="Buscar producto">
         <div class="controles-catalogo">
           <select id="orden" aria-label="Ordenar productos">

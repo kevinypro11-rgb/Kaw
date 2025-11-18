@@ -71,8 +71,8 @@
     const busqueda = qs('#buscador').value;
     const orden = qs('#orden').value;
     const categoria = qs('#filtros-categoria .filtro-btn.activo')?.dataset.categoria || 'todos';
-    const talla = qs('#filtros-adicionales [data-talla].activo')?.dataset.talla || 'todos';
-    const color = qs('#filtros-adicionales [data-color].activo')?.dataset.color || 'todos';
+    const talla = qs('#filtros-talla .filtro-btn.activo')?.dataset.talla || 'todos';
+    const color = qs('#filtros-color .filtro-btn.activo')?.dataset.color || 'todos';
     const precioMax = Number(qs('#filtro-precio').value);
 
     // Guardar estado de filtros
@@ -142,7 +142,10 @@
   }
 
   function updatePrecioDisplay(valor) {
-    qs('#precio-max-display').textContent = formatPrice(valor);
+    const display = qs('#precio-max-display');
+    if (display) {
+      display.textContent = formatPrice(valor);
+    }
   }
 
   function initEvents() {
@@ -152,28 +155,38 @@
     const precioSlider = qs('#filtro-precio');
     precioSlider.addEventListener('input', () => {
       updatePrecioDisplay(precioSlider.value);
-      filtrarYOrdenar();
     });
+    // Filtrar solo cuando el usuario suelta el control del slider
+    precioSlider.addEventListener('change', filtrarYOrdenar);
 
     qs('#sidebar-filtros').addEventListener('click', e => {
         const target = e.target;
 
-        // Lógica del acordeón
+        // Lógica del acordeón: se activa al hacer clic en el H4
         if (target.tagName === 'H4') {
-            target.parentElement.classList.toggle('activo');
-            return;
+            const grupo = target.closest('.filtro-grupo');
+            if (grupo) {
+                grupo.classList.toggle('activo');
+            }
+            return; // Detener para no procesar otros clics
         }
 
-        // Lógica de los botones de filtro
+        // Lógica de los botones de filtro (talla, color, categoría)
         if (target.classList.contains('filtro-btn')) {
-            const parent = target.parentElement;
-            parent.querySelectorAll('.filtro-btn').forEach(btn => btn.classList.remove('activo'));
-            target.classList.add('activo');
-            filtrarYOrdenar();
-            return;
+            const group = target.closest('.filtros');
+            if (group) {
+                // Si el botón ya está activo, no hacer nada.
+                // Si se quisiera deseleccionar, se necesitaría otra lógica.
+                if (!target.classList.contains('activo')) {
+                    group.querySelectorAll('.filtro-btn').forEach(btn => btn.classList.remove('activo'));
+                    target.classList.add('activo');
+                    filtrarYOrdenar();
+                }
+            }
+            return; // Detener
         }
 
-        // Lógica del botón de limpiar
+        // Lógica del botón de limpiar filtros
         if (target.id === 'limpiar-filtros') {
             sessionStorage.removeItem(FILTERS_KEY);
             qs('#buscador').value = '';
@@ -185,57 +198,65 @@
 
             qsa('.filtro-btn').forEach(btn => btn.classList.remove('activo'));
             
-            const categoriaTodos = qs('#filtros-categoria .filtro-btn[data-categoria="todos"]');
-            if (categoriaTodos) {
-              categoriaTodos.classList.add('activo');
-              // Asegurarse de que el acordeón de categoría esté abierto
-              categoriaTodos.closest('.filtro-grupo').classList.add('activo');
-            }
+            // Activar los botones "Todos" por defecto
+            qs('#filtros-categoria .filtro-btn[data-categoria="todos"]')?.classList.add('activo');
             qs('#filtros-talla .filtro-btn[data-talla="todos"]')?.classList.add('activo');
             qs('#filtros-color .filtro-btn[data-color="todos"]')?.classList.add('activo');
+            
+            // Asegurarse de que los acordeones de filtros se abran al limpiar
+            qsa('.filtro-grupo').forEach(g => g.classList.add('activo'));
             
             filtrarYOrdenar();
         }
     });
 
-    // Toggle para mostrar/ocultar filtros en móvil
-    qs('#mostrar-filtros-btn').addEventListener('click', () => {
-      document.body.classList.add('filtros-activos');
-    });
+    // Toggle para mostrar/ocultar filtros
+    const mostrarFiltrosBtn = qs('#mostrar-filtros-btn');
+    if (mostrarFiltrosBtn) {
+      mostrarFiltrosBtn.addEventListener('click', () => {
+        document.body.classList.add('filtros-activos');
+      });
+    }
 
-    qs('#cerrar-filtros-btn').addEventListener('click', () => {
-      document.body.classList.remove('filtros-activos');
-    });
+    const cerrarFiltrosBtn = qs('#cerrar-filtros-btn');
+    if (cerrarFiltrosBtn) {
+      cerrarFiltrosBtn.addEventListener('click', () => {
+        document.body.classList.remove('filtros-activos');
+      });
+    }
 
     // Manejador de eventos para la lista de productos
-    qs('#lista-productos').addEventListener('click', e => {
-      const btnAgregar = e.target.closest('.btn-agregar-catalogo');
-      const btnOpciones = e.target.closest('.btn-seleccionar-opciones');
+    const listaProductos = qs('#lista-productos');
+    if (listaProductos) {
+      listaProductos.addEventListener('click', e => {
+        const btnAgregar = e.target.closest('.btn-agregar-catalogo');
+        const btnOpciones = e.target.closest('.btn-seleccionar-opciones');
 
-      if (btnAgregar) {
-        e.preventDefault();
-        const id = Number(btnAgregar.dataset.id);
-        const producto = productosCache.find(p => p.id === id);
-        if (producto) {
-          agregarAlCarrito({ ...producto, cantidad: 1 });
-          
-          // Feedback visual
-          btnAgregar.innerHTML = '<i class="fas fa-check"></i> Agregado';
-          btnAgregar.disabled = true;
-          setTimeout(() => {
-            btnAgregar.innerHTML = '<i class="fas fa-shopping-cart"></i> Agregar';
-            btnAgregar.disabled = false;
-          }, 1500);
+        if (btnAgregar) {
+          e.preventDefault();
+          const id = Number(btnAgregar.dataset.id);
+          const producto = productosCache.find(p => p.id === id);
+          if (producto) {
+            agregarAlCarrito({ ...producto, cantidad: 1 });
+            
+            // Feedback visual
+            btnAgregar.innerHTML = '<i class="fas fa-check"></i> Agregado';
+            btnAgregar.disabled = true;
+            setTimeout(() => {
+              btnAgregar.innerHTML = '<i class="fas fa-shopping-cart"></i> Agregar';
+              btnAgregar.disabled = false;
+            }, 1500);
+          }
+        } else if (btnOpciones) {
+          e.preventDefault();
+          const id = Number(btnOpciones.dataset.id);
+          const producto = productosCache.find(p => p.id === id);
+          if (producto) {
+            renderQuickViewModal(producto);
+          }
         }
-      } else if (btnOpciones) {
-        e.preventDefault();
-        const id = Number(btnOpciones.dataset.id);
-        const producto = productosCache.find(p => p.id === id);
-        if (producto) {
-          renderQuickViewModal(producto);
-        }
-      }
-    });
+      });
+    }
 
     // Cerrar filtros si se hace clic en el overlay
     document.addEventListener('click', (e) => {
@@ -248,36 +269,32 @@
   function generarFiltrosDinamicos() {
     const todasTallas = [...new Set(productosCache.flatMap(p => p.tallas || []))].sort();
     const todosColores = [...new Set(productosCache.flatMap(p => p.colores || []))].sort();
+    const sidebar = qs('#sidebar-filtros');
 
-    const contenedorAdicional = qs('#filtros-adicionales');
-    if (!contenedorAdicional) return;
-    contenedorAdicional.innerHTML = ''; // Limpiar
+    if (!sidebar) return;
 
-    if (todasTallas.length > 0) {
-        contenedorAdicional.innerHTML += `
-            <div class="filtro-grupo">
-                <h4>Talla</h4>
-                <div class="filtro-contenido" id="filtros-talla">
-                    <div class="filtros" role="tablist" aria-label="Filtrar por talla">
-                        <button class="filtro-btn activo" data-talla="todos">Todas</button>
-                        ${todasTallas.map(talla => `<button class="filtro-btn" data-talla="${talla}">${talla}</button>`).join('')}
-                    </div>
-                </div>
+    const crearGrupoFiltro = (titulo, tipo, valores) => {
+      if (valores.length === 0) return '';
+      return `
+        <div class="filtro-grupo">
+          <h4>${titulo}</h4>
+          <div class="filtro-contenido">
+            <div id="filtros-${tipo}" class="filtros" role="tablist" aria-label="Filtrar por ${tipo}">
+              <button class="filtro-btn activo" data-${tipo}="todos">Todos</button>
+              ${valores.map(valor => `<button class="filtro-btn" data-${tipo}="${valor}">${valor}</button>`).join('')}
             </div>
-        `;
-    }
-    if (todosColores.length > 0) {
-        contenedorAdicional.innerHTML += `
-            <div class="filtro-grupo">
-                <h4>Color</h4>
-                <div class="filtro-contenido" id="filtros-color">
-                    <div class="filtros" role="tablist" aria-label="Filtrar por color">
-                        <button class="filtro-btn activo" data-color="todos">Todos</button>
-                        ${todosColores.map(color => `<button class="filtro-btn" data-color="${color}">${color}</button>`).join('')}
-                    </div>
-                </div>
-            </div>
-        `;
+          </div>
+        </div>
+      `;
+    };
+
+    const tallasHTML = crearGrupoFiltro('Talla', 'talla', todasTallas);
+    const coloresHTML = crearGrupoFiltro('Color', 'color', todosColores);
+
+    // Insertar los nuevos grupos de filtros después del filtro de precio
+    const filtroPrecio = qs('.filtro-grupo:nth-of-type(2)');
+    if (filtroPrecio) {
+      filtroPrecio.insertAdjacentHTML('afterend', tallasHTML + coloresHTML);
     }
   }
 
@@ -399,9 +416,16 @@
     precioSlider.value = maxPrecio; // Valor por defecto
     updatePrecioDisplay(maxPrecio);
 
+    // 1. Generar los filtros dinámicos (talla, color) para que existan en el DOM.
     generarFiltrosDinamicos();
-    restoreFilterState(); // Mover la restauración aquí, después de crear los filtros
-    filtrarYOrdenar(); // Llama a filtrar para aplicar el estado restaurado
+    
+    // 2. Restaurar el estado guardado de los filtros (ahora que todos existen).
+    restoreFilterState(); 
+    
+    // 3. Aplicar los filtros para mostrar los productos iniciales.
+    filtrarYOrdenar(); 
+    
+    // 4. Inicializar todos los eventos de la página.
     initEvents();
   }
 

@@ -52,6 +52,15 @@ function describirPrecioAplicado(item) {
   return '';
 }
 
+// --- GESTIÓN DEL STOCK (SIMULADA) ---
+async function obtenerStockActual(id, talla, color) {
+  // TODO: En un futuro, esta función podría consultar al servidor en tiempo real.
+  // Por ahora, devolvemos el stock que ya conocemos del producto.
+  const cart = getCarrito();
+  const item = cart.find(i => i.id === id && i.talla === talla && i.color === color);
+  return Promise.resolve(item ? item.stock : 20); // Devuelve el stock del item o un valor por defecto.
+}
+
 // --- GESTIÓN DEL CARRITO (LOCALSTORAGE) ---
 function getCarrito() {
   try {

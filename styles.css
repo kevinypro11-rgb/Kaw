@@ -37,6 +37,116 @@ main.catalogo-container {
   position: relative;
 }
 
+.sidebar-filtros {
+  background: #fff;
+  padding: 20px;
+  border-radius: 0; /* Sin bordes redondeados para un panel lateral */
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 300px;
+  max-width: 90%;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 1500;
+  overflow-y: auto;
+  box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.sidebar-header h3 {
+  margin: 0;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.cerrar-filtros-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #888;
+}
+
+/* Ocultar el botón de cerrar en desktop por defecto, ya que el sidebar es visible */
+/* Esta regla ya no es necesaria, la eliminamos para un comportamiento consistente */
+
+
+body.filtros-activos .sidebar-filtros {
+  transform: translateX(0);
+}
+
+/* Overlay para el fondo cuando los filtros están activos en móvil */
+body.filtros-activos::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 1400;
+}
+
+.sidebar-filtros .filtro-grupo {
+  margin-bottom: 0;
+  border-top: 1px solid #eee;
+  padding-top: 0;
+}
+
+.sidebar-filtros .filtro-grupo h4 {
+  margin: 0;
+  padding: 15px 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+}
+
+.sidebar-filtros .filtro-grupo h4::after {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-left: 8px;
+  background: center/contain no-repeat url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  transition: transform 0.3s ease;
+}
+
+.sidebar-filtros .filtro-grupo.activo h4::after {
+  transform: rotate(180deg);
+}
+
+.filtro-contenido {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding-bottom 0.3s ease-out;
+  padding: 0;
+}
+
+.sidebar-filtros .filtro-grupo.activo .filtro-contenido {
+  max-height: 500px; /* Un valor suficientemente grande para mostrar el contenido */
+  padding-bottom: 15px;
+  transition: max-height 0.4s ease-in, padding-bottom 0.4s ease-in;
+}
+
+.sidebar-filtros .filtros {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
 .productos-container {
   flex: 1;
   min-width: 0; /* Previene que el contenedor se desborde */
@@ -534,6 +644,22 @@ header .carrito .badge {
 }
 .filtro-btn:hover, .filtro-btn.activo { background-color: #c9a227; color: white; }
 
+.sidebar-filtros .filtro-btn {
+  border-radius: 8px;
+  border: 1px solid #eee;
+  background: #fafafa;
+  color: #333;
+  text-align: left;
+  padding: 8px 12px;
+  width: 100%;
+}
+
+.sidebar-filtros .filtro-btn.activo {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
 .btn-limpiar-filtros {
   width: 100%;
   margin-bottom: 15px;
@@ -543,6 +669,26 @@ header .carrito .badge {
   padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
+}
+
+.precio-filtro-contenedor {
+  padding: 10px 0;
+}
+
+.precio-filtro-contenedor input[type="range"] {
+  width: 100%;
+}
+
+.btn-mostrar-filtros {
+  display: flex; /* Siempre visible para poder hacer clic */
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .busqueda-contenedor{
@@ -571,6 +717,12 @@ header .carrito .badge {
 
 .controles-catalogo{ display:flex; gap:10px; align-items:center; }
 /* responsivo */
+@media (max-width:900px){
+  .busqueda-contenedor{ flex-direction:row; align-items:center; }
+  .controles-catalogo{ flex-shrink: 0; }
+  /* .btn-mostrar-filtros { display: flex; } ya no es necesario, es flex por defecto */
+}
+
 @media (max-width:700px){
   .busqueda-contenedor{ flex-direction:column; align-items:stretch; padding:12px; margin:0 0 18px 0; }
   .controles-catalogo{ width:100%; justify-content:space-between; }
@@ -762,34 +914,9 @@ header .carrito .badge {
   .recomendado img { height:100px; }
 }
 
-@media (min-width: 901px) {
-  /* Ya no se oculta el botón de filtros en desktop */
-  .sidebar-filtros {
-    /* Se mantiene la posición fija para que pueda ocultarse/mostrarse */
-    box-shadow: 4px 0 15px rgba(0,0,0,0.1);
-    height: 100%;
-    flex: 0 0 240px; /* Se mantiene el ancho */
-    transform: translateX(0); /* Visible por defecto en desktop */
-    position: sticky;
-    top: calc(var(--header-dynamic-height) + 20px);
-    height: calc(100vh - var(--header-dynamic-height) - 40px);
-  }
+/* Eliminamos las reglas de @media (min-width: 901px) para el sidebar, 
+   ya que ahora se comportará igual en todas las pantallas (oculto por defecto) */
 
-  /* Ocultar el botón de mostrar filtros en desktop */
-  #mostrar-filtros-btn {
-    display: none;
-  }
-
-  /* Empujar el contenido principal para hacer espacio al sidebar */
-  .productos-container {
-    margin-left: 260px; /* Ancho del sidebar + gap */
-  }
-
-  /* El overlay no se muestra en desktop */
-  body.filtros-activos::before {
-    display: none;
-  }
-}
 
 @media (max-width: 900px) {
   .catalogo-container {
